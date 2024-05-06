@@ -1,5 +1,5 @@
-import { Button } from '~/components/ui/button'
+import { redirect } from '@remix-run/node'
 
-export default function Index() {
-  return <Button>Hello</Button>
+export async function loader() {
+  return redirect('/dashboard')
 }
