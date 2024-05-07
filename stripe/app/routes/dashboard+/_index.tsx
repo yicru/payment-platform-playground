@@ -1,5 +1,5 @@
 import { type ActionFunctionArgs, json, redirect } from '@remix-run/node'
-import { useFetcher, useLoaderData } from '@remix-run/react'
+import { useFetcher, useLoaderData, useNavigate } from '@remix-run/react'
 import { LoaderCircleIcon, Plus } from 'lucide-react'
 import { ColorBadge } from '~/components/color-badge'
 import { Page } from '~/components/page'
@@ -40,10 +40,15 @@ export async function action({ request }: ActionFunctionArgs) {
 export default function DashboardIndex() {
   const data = useLoaderData<typeof loader>()
   const fetcher = useFetcher()
+  const navigate = useNavigate()
 
   const handleClickNew = () => {
     if (fetcher.state !== 'idle') return
     fetcher.submit(null, { method: 'POST' })
+  }
+
+  const handleClickRow = (accountId: string) => {
+    navigate(`/dashboard/tenants/${accountId}`)
   }
 
   return (
@@ -64,13 +69,24 @@ export default function DashboardIndex() {
               </TableHeader>
               <TableBody>
                 {data.accounts.data.map((account) => (
-                  <TableRow key={account.id} className="text-xs">
+                  <TableRow
+                    key={account.id}
+                    className={cn('text-xs', {
+                      'cursor-pointer': account.charges_enabled,
+                      'cursor-not-allowed': !account.charges_enabled,
+                    })}
+                    onClick={
+                      account.charges_enabled
+                        ? () => handleClickRow(account.id)
+                        : undefined
+                    }
+                  >
                     <TableCell>{account.id}</TableCell>
                     <TableCell className="text-right">
                       <ColorBadge
-                        color={account.details_submitted ? 'green' : 'red'}
+                        color={account.charges_enabled ? 'green' : 'red'}
                       >
-                        {account.details_submitted ? '連携完了' : '制限あり'}
+                        {account.charges_enabled ? '完了' : '制限あり'}
                       </ColorBadge>
                     </TableCell>
                   </TableRow>

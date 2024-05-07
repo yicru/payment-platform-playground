@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 const schema = z.object({
-  STRIPE_PUBLIC_KEY: z.string(),
+  VITE_STRIPE_PUBLIC_KEY: z.string(),
   STRIPE_SECRET_KEY: z.string(),
 })
 
