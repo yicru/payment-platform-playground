@@ -1,17 +1,15 @@
+import fs from 'node:fs'
+import path from 'node:path'
 import { createSchema, createYoga } from 'graphql-yoga'
+import { resolvers } from './resolver.ts'
 
 const yoga = createYoga({
   schema: createSchema({
-    typeDefs: /* GraphQL */ `
-      type Query {
-        greetings: String
-      }
-    `,
-    resolvers: {
-      Query: {
-        greetings: () => 'Hello from Yoga in a Bun app!',
-      },
-    },
+    typeDefs: fs.readFileSync(
+      path.join(__dirname, '../graphql/schema.graphql'),
+      'utf-8',
+    ),
+    resolvers,
   }),
 })
 
