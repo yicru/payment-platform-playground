@@ -1,3 +1,45 @@
+type StripeAccount {
+    id: ID!
+    chargesEnabled: Boolean!
+}
+
+type CreateStripeAccountResult {
+    url: String!
+}
+
+input RefreshStripeAccountLinkInput {
+    accountId: ID!
+}
+
+type RefreshStripeAccountLinkResult {
+    url: String!
+}
+
+input CreateStripeAccountSessionInput {
+    accountId: ID!
+}
+
+type CreateStripeAccountSessionResult {
+    clientSecret: String!
+}
+
+input CreateStripeCheckoutSessionInput {
+    accountId: ID!
+}
+
+type CreateStripeCheckoutSessionResult {
+    clientSecret: String!
+}
+
 type Query {
-    greetings: String
+    stripeAccount(id: ID!): StripeAccount
+    stripeAccounts: [StripeAccount!]!
+}
+
+
+type Mutation {
+    createStripeAccount: CreateStripeAccountResult!
+    refreshStripeAccountLink(input: RefreshStripeAccountLinkInput!): RefreshStripeAccountLinkResult!
+    createStripeAccountSession(input: CreateStripeAccountSessionInput!): CreateStripeAccountSessionResult!
+    createStripeCheckoutSession(input: CreateStripeCheckoutSessionInput!): CreateStripeCheckoutSessionResult!
 }

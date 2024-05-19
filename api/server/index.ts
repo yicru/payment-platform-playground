@@ -1,7 +1,10 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { createSchema, createYoga } from 'graphql-yoga'
+import { initEnvs } from '../lib/env.ts'
 import { resolvers } from './resolver.ts'
+
+initEnvs()
 
 const yoga = createYoga({
   schema: createSchema({

@@ -1,3 +1,4 @@
+import type { LinksFunction } from '@remix-run/node'
 import {
   Links,
   Meta,
@@ -5,6 +6,27 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react'
+import { Provider } from 'urql'
+import { client } from '~/lib/urql'
+import stylesheet from '~/tailwind.css?url'
+
+export const links: LinksFunction = () => [
+  { rel: 'stylesheet', href: stylesheet },
+  { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+  {
+    rel: 'preconnect',
+    href: 'https://fonts.gstatic.com',
+    crossOrigin: 'anonymous',
+  },
+  {
+    href: 'https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap',
+    rel: 'stylesheet',
+  },
+  {
+    href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap',
+    rel: 'stylesheet',
+  },
+]
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -16,9 +38,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
-        <ScrollRestoration />
-        <Scripts />
+        <Provider value={client}>
+          {children}
+          <ScrollRestoration />
+          <Scripts />
+        </Provider>
       </body>
     </html>
   )
