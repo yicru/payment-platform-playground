@@ -2,7 +2,13 @@
   "name": "api",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "lint": "biome check .",
+    "format": "biome check --apply .",
+    "format:force": "biome check --apply-unsafe ."
+  },
   "devDependencies": {
+    "@biomejs/biome": "1.7.3",
     "@types/bun": "latest"
   },
   "peerDependencies": {
