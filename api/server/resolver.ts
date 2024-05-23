@@ -1,4 +1,5 @@
 import type { GqlResolvers } from '../graphql/generated.ts'
+import { fincode } from '../lib/fincode.ts'
 import { stripe } from '../lib/stripe.ts'
 
 export const resolvers: GqlResolvers = {
@@ -21,6 +22,43 @@ export const resolvers: GqlResolvers = {
         chargesEnabled: account.charges_enabled,
       }))
     },
+    fincodeTenant: async (_, args) => {
+      const tenant = await fincode.tenants.retrieve(args.id)
+
+      return {
+        id: tenant.id,
+        shopName: tenant.shop_name,
+        created: tenant.created,
+      }
+    },
+    fincodeTenants: async () => {
+      const tenants = await fincode.tenants.retrieveList()
+
+      return (
+        tenants.list?.map((tenant) => ({
+          id: tenant.id,
+          shopName: tenant.shop_name,
+          created: tenant.created,
+        })) ?? []
+      )
+    },
+    fincodeInviteUrl: () => {
+      return process.env.FINCODE_TENANT_INVITE_URL
+    },
+    fincodePayments: async (_, args) => {
+      const payments = await fincode.payments.retrieveList({
+        pay_type: 'Card',
+      }, {
+        tenantShopId: args.tenantId,
+      })
+
+      return payments.list?.map(payment => ({
+        id: payment.id,
+        status: payment.status,
+        amount: payment.amount,
+        processDate: payment.process_date,
+      })) ?? []
+    }
   },
   Mutation: {
     createStripeAccount: async () => {
@@ -118,6 +156,30 @@ export const resolvers: GqlResolvers = {
 
       return {
         clientSecret: session.client_secret,
+      }
+    },
+    createFincodePaymentSession: async (_, args) => {
+      const session = await fincode.paymentSessions.create(
+        {
+          success_url: process.env.FINCODE_PAYMNET_SUCCESS_URL.replace(
+            '__TENANT_ID__',
+            args.input.tenantId,
+          ),
+          cancel_url: process.env.FINCODE_PAYMNET_CANCEL_URL.replace(
+            '__TENANT_ID__',
+            args.input.tenantId,
+          ),
+          transaction: {
+            amount: '1000',
+          },
+        },
+        {
+          tenantShopId: args.input.tenantId,
+        },
+      )
+
+      return {
+        url: session.link_url,
       }
     },
   },

@@ -20,6 +20,11 @@ export function Navigation() {
       path: '/stripe',
       isActive: location.pathname.startsWith('/stripe'),
     },
+    {
+      name: 'fincode',
+      path: '/fincode',
+      isActive: location.pathname.startsWith('/fincode'),
+    },
   ]
 
   return (

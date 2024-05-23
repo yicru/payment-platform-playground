@@ -13,9 +13,14 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\n    fragment FincodePaymentTable_payments on FincodePayment {\n        id\n        status\n        amount\n        processDate\n    }\n": types.FincodePaymentTable_PaymentsFragmentDoc,
+    "\n    fragment FincodeTenantTable_tenants on FincodeTenant {\n        id\n        shopName\n        created\n    }\n": types.FincodeTenantTable_TenantsFragmentDoc,
     "\n  fragment CreateStripeCheckoutSessionDialog_stripeAccount on StripeAccount {\n    id\n  }\n": types.CreateStripeCheckoutSessionDialog_StripeAccountFragmentDoc,
     "\n  mutation CreateStripeCheckoutSessionMutation($input: CreateStripeCheckoutSessionInput!) {\n    createStripeCheckoutSession(input: $input) {\n      clientSecret\n    }\n  }\n": types.CreateStripeCheckoutSessionMutationDocument,
     "\n    fragment StripeAccountTable_stripeAccounts on StripeAccount {\n        id\n        chargesEnabled\n    }\n": types.StripeAccountTable_StripeAccountsFragmentDoc,
+    "\n  query FincodePage {\n    fincodeInviteUrl\n    fincodeTenants {\n      ...FincodeTenantTable_tenants\n    }\n  }\n": types.FincodePageDocument,
+    "\n    query FincodeTenantDetailPage($id: ID!) {\n        fincodeTenant(id: $id) {\n            id\n            shopName\n        }\n        fincodePayments(tenantId: $id) {\n            ...FincodePaymentTable_payments\n        }\n    }\n": types.FincodeTenantDetailPageDocument,
+    "\n    mutation CreateFincodePaymentSession($input: CreateFincodePaymentSessionInput!) {\n        createFincodePaymentSession(input: $input) {\n            url\n        }\n    }\n": types.CreateFincodePaymentSessionDocument,
     "\n  query StripePage {\n    stripeAccounts {\n      ...StripeAccountTable_stripeAccounts\n    }\n  }\n": types.StripePageDocument,
     "\n  mutation CreateStripeAccount {\n    createStripeAccount {\n      url\n    }\n  }\n": types.CreateStripeAccountDocument,
     "\n    query StripeAccountDetailPage($id: ID!) {\n        stripeAccount(id: $id) {\n            ...CreateStripeCheckoutSessionDialog_stripeAccount\n        }\n    }\n": types.StripeAccountDetailPageDocument,
@@ -40,6 +45,14 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n    fragment FincodePaymentTable_payments on FincodePayment {\n        id\n        status\n        amount\n        processDate\n    }\n"): (typeof documents)["\n    fragment FincodePaymentTable_payments on FincodePayment {\n        id\n        status\n        amount\n        processDate\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    fragment FincodeTenantTable_tenants on FincodeTenant {\n        id\n        shopName\n        created\n    }\n"): (typeof documents)["\n    fragment FincodeTenantTable_tenants on FincodeTenant {\n        id\n        shopName\n        created\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n  fragment CreateStripeCheckoutSessionDialog_stripeAccount on StripeAccount {\n    id\n  }\n"): (typeof documents)["\n  fragment CreateStripeCheckoutSessionDialog_stripeAccount on StripeAccount {\n    id\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -49,6 +62,18 @@ export function graphql(source: "\n  mutation CreateStripeCheckoutSessionMutatio
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n    fragment StripeAccountTable_stripeAccounts on StripeAccount {\n        id\n        chargesEnabled\n    }\n"): (typeof documents)["\n    fragment StripeAccountTable_stripeAccounts on StripeAccount {\n        id\n        chargesEnabled\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query FincodePage {\n    fincodeInviteUrl\n    fincodeTenants {\n      ...FincodeTenantTable_tenants\n    }\n  }\n"): (typeof documents)["\n  query FincodePage {\n    fincodeInviteUrl\n    fincodeTenants {\n      ...FincodeTenantTable_tenants\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    query FincodeTenantDetailPage($id: ID!) {\n        fincodeTenant(id: $id) {\n            id\n            shopName\n        }\n        fincodePayments(tenantId: $id) {\n            ...FincodePaymentTable_payments\n        }\n    }\n"): (typeof documents)["\n    query FincodeTenantDetailPage($id: ID!) {\n        fincodeTenant(id: $id) {\n            id\n            shopName\n        }\n        fincodePayments(tenantId: $id) {\n            ...FincodePaymentTable_payments\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    mutation CreateFincodePaymentSession($input: CreateFincodePaymentSessionInput!) {\n        createFincodePaymentSession(input: $input) {\n            url\n        }\n    }\n"): (typeof documents)["\n    mutation CreateFincodePaymentSession($input: CreateFincodePaymentSessionInput!) {\n        createFincodePaymentSession(input: $input) {\n            url\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

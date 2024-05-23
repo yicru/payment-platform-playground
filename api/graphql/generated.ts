@@ -16,6 +16,15 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type GqlCreateFincodePaymentSessionInput = {
+  tenantId: Scalars['ID']['input'];
+};
+
+export type GqlCreateFincodePaymentSessionResult = {
+  __typename?: 'CreateFincodePaymentSessionResult';
+  url: Scalars['String']['output'];
+};
+
 export type GqlCreateStripeAccountResult = {
   __typename?: 'CreateStripeAccountResult';
   url: Scalars['String']['output'];
@@ -39,12 +48,33 @@ export type GqlCreateStripeCheckoutSessionResult = {
   clientSecret: Scalars['String']['output'];
 };
 
+export type GqlFincodePayment = {
+  __typename?: 'FincodePayment';
+  amount?: Maybe<Scalars['Int']['output']>;
+  id: Scalars['ID']['output'];
+  processDate: Scalars['String']['output'];
+  status: Scalars['String']['output'];
+};
+
+export type GqlFincodeTenant = {
+  __typename?: 'FincodeTenant';
+  created: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  shopName: Scalars['String']['output'];
+};
+
 export type GqlMutation = {
   __typename?: 'Mutation';
+  createFincodePaymentSession: GqlCreateFincodePaymentSessionResult;
   createStripeAccount: GqlCreateStripeAccountResult;
   createStripeAccountSession: GqlCreateStripeAccountSessionResult;
   createStripeCheckoutSession: GqlCreateStripeCheckoutSessionResult;
   refreshStripeAccountLink: GqlRefreshStripeAccountLinkResult;
+};
+
+
+export type GqlMutationCreateFincodePaymentSessionArgs = {
+  input: GqlCreateFincodePaymentSessionInput;
 };
 
 
@@ -64,8 +94,22 @@ export type GqlMutationRefreshStripeAccountLinkArgs = {
 
 export type GqlQuery = {
   __typename?: 'Query';
+  fincodeInviteUrl: Scalars['String']['output'];
+  fincodePayments: Array<GqlFincodePayment>;
+  fincodeTenant?: Maybe<GqlFincodeTenant>;
+  fincodeTenants: Array<GqlFincodeTenant>;
   stripeAccount?: Maybe<GqlStripeAccount>;
   stripeAccounts: Array<GqlStripeAccount>;
+};
+
+
+export type GqlQueryFincodePaymentsArgs = {
+  tenantId: Scalars['ID']['input'];
+};
+
+
+export type GqlQueryFincodeTenantArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -160,12 +204,17 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type GqlResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  CreateFincodePaymentSessionInput: GqlCreateFincodePaymentSessionInput;
+  CreateFincodePaymentSessionResult: ResolverTypeWrapper<GqlCreateFincodePaymentSessionResult>;
   CreateStripeAccountResult: ResolverTypeWrapper<GqlCreateStripeAccountResult>;
   CreateStripeAccountSessionInput: GqlCreateStripeAccountSessionInput;
   CreateStripeAccountSessionResult: ResolverTypeWrapper<GqlCreateStripeAccountSessionResult>;
   CreateStripeCheckoutSessionInput: GqlCreateStripeCheckoutSessionInput;
   CreateStripeCheckoutSessionResult: ResolverTypeWrapper<GqlCreateStripeCheckoutSessionResult>;
+  FincodePayment: ResolverTypeWrapper<GqlFincodePayment>;
+  FincodeTenant: ResolverTypeWrapper<GqlFincodeTenant>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
+  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   RefreshStripeAccountLinkInput: GqlRefreshStripeAccountLinkInput;
@@ -177,18 +226,28 @@ export type GqlResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type GqlResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
+  CreateFincodePaymentSessionInput: GqlCreateFincodePaymentSessionInput;
+  CreateFincodePaymentSessionResult: GqlCreateFincodePaymentSessionResult;
   CreateStripeAccountResult: GqlCreateStripeAccountResult;
   CreateStripeAccountSessionInput: GqlCreateStripeAccountSessionInput;
   CreateStripeAccountSessionResult: GqlCreateStripeAccountSessionResult;
   CreateStripeCheckoutSessionInput: GqlCreateStripeCheckoutSessionInput;
   CreateStripeCheckoutSessionResult: GqlCreateStripeCheckoutSessionResult;
+  FincodePayment: GqlFincodePayment;
+  FincodeTenant: GqlFincodeTenant;
   ID: Scalars['ID']['output'];
+  Int: Scalars['Int']['output'];
   Mutation: {};
   Query: {};
   RefreshStripeAccountLinkInput: GqlRefreshStripeAccountLinkInput;
   RefreshStripeAccountLinkResult: GqlRefreshStripeAccountLinkResult;
   String: Scalars['String']['output'];
   StripeAccount: GqlStripeAccount;
+};
+
+export type GqlCreateFincodePaymentSessionResultResolvers<ContextType = any, ParentType extends GqlResolversParentTypes['CreateFincodePaymentSessionResult'] = GqlResolversParentTypes['CreateFincodePaymentSessionResult']> = {
+  url?: Resolver<GqlResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type GqlCreateStripeAccountResultResolvers<ContextType = any, ParentType extends GqlResolversParentTypes['CreateStripeAccountResult'] = GqlResolversParentTypes['CreateStripeAccountResult']> = {
@@ -206,7 +265,23 @@ export type GqlCreateStripeCheckoutSessionResultResolvers<ContextType = any, Par
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type GqlFincodePaymentResolvers<ContextType = any, ParentType extends GqlResolversParentTypes['FincodePayment'] = GqlResolversParentTypes['FincodePayment']> = {
+  amount?: Resolver<Maybe<GqlResolversTypes['Int']>, ParentType, ContextType>;
+  id?: Resolver<GqlResolversTypes['ID'], ParentType, ContextType>;
+  processDate?: Resolver<GqlResolversTypes['String'], ParentType, ContextType>;
+  status?: Resolver<GqlResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type GqlFincodeTenantResolvers<ContextType = any, ParentType extends GqlResolversParentTypes['FincodeTenant'] = GqlResolversParentTypes['FincodeTenant']> = {
+  created?: Resolver<GqlResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<GqlResolversTypes['ID'], ParentType, ContextType>;
+  shopName?: Resolver<GqlResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type GqlMutationResolvers<ContextType = any, ParentType extends GqlResolversParentTypes['Mutation'] = GqlResolversParentTypes['Mutation']> = {
+  createFincodePaymentSession?: Resolver<GqlResolversTypes['CreateFincodePaymentSessionResult'], ParentType, ContextType, RequireFields<GqlMutationCreateFincodePaymentSessionArgs, 'input'>>;
   createStripeAccount?: Resolver<GqlResolversTypes['CreateStripeAccountResult'], ParentType, ContextType>;
   createStripeAccountSession?: Resolver<GqlResolversTypes['CreateStripeAccountSessionResult'], ParentType, ContextType, RequireFields<GqlMutationCreateStripeAccountSessionArgs, 'input'>>;
   createStripeCheckoutSession?: Resolver<GqlResolversTypes['CreateStripeCheckoutSessionResult'], ParentType, ContextType, RequireFields<GqlMutationCreateStripeCheckoutSessionArgs, 'input'>>;
@@ -214,6 +289,10 @@ export type GqlMutationResolvers<ContextType = any, ParentType extends GqlResolv
 };
 
 export type GqlQueryResolvers<ContextType = any, ParentType extends GqlResolversParentTypes['Query'] = GqlResolversParentTypes['Query']> = {
+  fincodeInviteUrl?: Resolver<GqlResolversTypes['String'], ParentType, ContextType>;
+  fincodePayments?: Resolver<Array<GqlResolversTypes['FincodePayment']>, ParentType, ContextType, RequireFields<GqlQueryFincodePaymentsArgs, 'tenantId'>>;
+  fincodeTenant?: Resolver<Maybe<GqlResolversTypes['FincodeTenant']>, ParentType, ContextType, RequireFields<GqlQueryFincodeTenantArgs, 'id'>>;
+  fincodeTenants?: Resolver<Array<GqlResolversTypes['FincodeTenant']>, ParentType, ContextType>;
   stripeAccount?: Resolver<Maybe<GqlResolversTypes['StripeAccount']>, ParentType, ContextType, RequireFields<GqlQueryStripeAccountArgs, 'id'>>;
   stripeAccounts?: Resolver<Array<GqlResolversTypes['StripeAccount']>, ParentType, ContextType>;
 };
@@ -230,9 +309,12 @@ export type GqlStripeAccountResolvers<ContextType = any, ParentType extends GqlR
 };
 
 export type GqlResolvers<ContextType = any> = {
+  CreateFincodePaymentSessionResult?: GqlCreateFincodePaymentSessionResultResolvers<ContextType>;
   CreateStripeAccountResult?: GqlCreateStripeAccountResultResolvers<ContextType>;
   CreateStripeAccountSessionResult?: GqlCreateStripeAccountSessionResultResolvers<ContextType>;
   CreateStripeCheckoutSessionResult?: GqlCreateStripeCheckoutSessionResultResolvers<ContextType>;
+  FincodePayment?: GqlFincodePaymentResolvers<ContextType>;
+  FincodeTenant?: GqlFincodeTenantResolvers<ContextType>;
   Mutation?: GqlMutationResolvers<ContextType>;
   Query?: GqlQueryResolvers<ContextType>;
   RefreshStripeAccountLinkResult?: GqlRefreshStripeAccountLinkResultResolvers<ContextType>;

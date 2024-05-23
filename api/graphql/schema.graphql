@@ -3,6 +3,19 @@ type StripeAccount {
     chargesEnabled: Boolean!
 }
 
+type FincodeTenant {
+    id: ID!
+    shopName: String!
+    created: String!
+}
+
+type FincodePayment {
+    id: ID!
+    status: String!
+    amount: Int
+    processDate: String!
+}
+
 type CreateStripeAccountResult {
     url: String!
 }
@@ -31,9 +44,21 @@ type CreateStripeCheckoutSessionResult {
     clientSecret: String!
 }
 
+input CreateFincodePaymentSessionInput {
+    tenantId: ID!
+}
+
+type CreateFincodePaymentSessionResult {
+    url: String!
+}
+
 type Query {
     stripeAccount(id: ID!): StripeAccount
     stripeAccounts: [StripeAccount!]!
+    fincodeTenant(id: ID!): FincodeTenant
+    fincodeTenants: [FincodeTenant!]!
+    fincodeInviteUrl: String!
+    fincodePayments(tenantId: ID!): [FincodePayment!]!
 }
 
 
@@ -42,4 +67,5 @@ type Mutation {
     refreshStripeAccountLink(input: RefreshStripeAccountLinkInput!): RefreshStripeAccountLinkResult!
     createStripeAccountSession(input: CreateStripeAccountSessionInput!): CreateStripeAccountSessionResult!
     createStripeCheckoutSession(input: CreateStripeCheckoutSessionInput!): CreateStripeCheckoutSessionResult!
+    createFincodePaymentSession(input: CreateFincodePaymentSessionInput!): CreateFincodePaymentSessionResult!
 }

@@ -5,6 +5,10 @@ const schema = z.object({
   STRIPE_REFRESH_URL: z.string().url(),
   STRIPE_RETURN_URL: z.string().url(),
   STRIPE_CHECKOUT_RETURN_URL: z.string().url(),
+  FINCODE_SECRET_KEY: z.string(),
+  FINCODE_TENANT_INVITE_URL: z.string().url(),
+  FINCODE_PAYMNET_SUCCESS_URL: z.string().url(),
+  FINCODE_PAYMNET_CANCEL_URL: z.string().url(),
 })
 
 declare global {

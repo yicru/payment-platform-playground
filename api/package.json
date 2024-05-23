@@ -12,6 +12,7 @@
     "format:force": "biome check --apply-unsafe ."
   },
   "dependencies": {
+    "@fincode/node": "^1.0.1",
     "graphql": "^16.8.1",
     "graphql-yoga": "^5.3.1",
     "stripe": "^15.7.0",
