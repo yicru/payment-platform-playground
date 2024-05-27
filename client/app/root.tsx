@@ -6,6 +6,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react'
+import { Loader2Icon } from 'lucide-react'
 import { Provider } from 'urql'
 import { client } from '~/lib/urql'
 import stylesheet from '~/tailwind.css?url'
@@ -53,5 +54,14 @@ export default function App() {
 }
 
 export function HydrateFallback() {
-  return <p>Loading...</p>
+  return (
+    <div
+      className={
+        'fixed inset-0 flex flex-col justify-center items-center gap-2'
+      }
+    >
+      <Loader2Icon className={'w-8 h-8 animate-spin'} />
+      <p className={'text-sm font-medium'}>読込中...</p>
+    </div>
+  )
 }
