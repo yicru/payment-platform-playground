@@ -7,6 +7,9 @@ import { resolvers } from './resolver.ts'
 initEnvs()
 
 const yoga = createYoga({
+  cors: {
+    origin: process.env.ALLOWED_ORIGIN,
+  },
   schema: createSchema({
     typeDefs: fs.readFileSync(
       path.join(__dirname, '../graphql/schema.graphql'),
